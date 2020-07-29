@@ -60,8 +60,8 @@ def slavePodTemplate = """
                   build 'artemis-deploy' 
                   parameters: [
                       [$class: 'BooleanParameterValue', name: 'terraformApply', value: true],
-                      [$class: 'StringParameterValue',  name: 'environment', value: "${environment}"]
-                      ////[$class: 'StringParameterValue',  name: 'docker_image', value: "${docker_image}"]
+                      [$class: 'StringParameterValue',  name: 'environment', value: "${environment}"],
+                      [$class: 'StringParameterValue',  name: 'docker_image', value: "${docker_image}"]
                       ]
                 }
             }
