@@ -35,30 +35,26 @@ def slavePodTemplate = """
             hostPath:
               path: /var/run/docker.sock
     """
-    def branch          = "${scm.branches[0].name}".replaceAll(/^\*\//, '').replace("/", "-").toLowerCase()
-    
+    def branch = "${scm.branches[0].name}".replaceAll(/^\*\//, '').replace("/", "-").toLowerCase()
     podTemplate(name: k8slabel, label: k8slabel, yaml: slavePodTemplate, showRawYaml: false) {
       node(k8slabel) {
-
         stage('Pull SCM') {
-           checkout scm 
+            checkout scm 
         }
-
-        container("docker") {dir ('deployments/docker') {        
-            stage("Docker Build") {
-                    sh "docker build -t vladyslavpylypenko/artemis-class:${GIT_BRANCH.replace('version/', 'v')}  ."
-            }
-            stage("Docker Login") {
-                withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', passwordVariable: 'password', usernameVariable: 'username')]) {
-
+        container("docker") {
+            dir('deployments/docker') {
+                stage("Docker Build") {
+                    sh "docker build -t vladyslavpylypenko/artemis:${branch.replace('version/', 'v')}  ."
+                }
+                stage("Docker Login") {
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', passwordVariable: 'password', usernameVariable: 'username')]) {
                         sh "docker login --username ${username} --password ${password}"
+                    }
+                }
+                stage("Docker Push") {
+                    sh "docker push vladyslavpylypenko/artemis:${branch.replace('version/', 'v')}"
                 }
             }
-                stage("Docker Push") {
-                    sh "docker push vladyslavpylypenko/artemis-class:${release_name.replace('version/', 'v')}"
-             }     
-            }
         }
-        
       }
     }
