@@ -7,4 +7,9 @@ properties([
         ])
      ])
 
+
+printlb("""
+Terraform apply: ${params.terraformApply}
+Selected env : ${params.evvironment}
+""")
 println('Hello world')
