@@ -7,6 +7,6 @@ EXPOSE 5000
 ## Install all packages
 RUN pip install Flask
 ## Change dir
-WORKDIR /artemis
+WORKDIR /artemis-class
 ## Run the application
 CMD python artemis.py
