@@ -8,7 +8,7 @@ properties([
      ])
 
 
-printlb("""
+println("""
 ##########################################
 Terraform apply: ${params.terraformApply}
 Selected env : ${params.environment}
