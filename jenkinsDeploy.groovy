@@ -11,8 +11,8 @@ properties([
 printlb("""
 ##########################################
 Terraform apply: ${params.terraformApply}
-Selected env : ${params.evvironment}
+Selected env : ${params.environment}
 ##########################################
 """)
 
-println('Hello world')??
+println('Hello world')
